@@ -7,6 +7,7 @@ on:
 
 jobs:
   review:
+    name: AI PR Reviewer
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -18,16 +19,19 @@ jobs:
           python-version: '3.9'
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run AI PR Reviewer
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python ai-reviewer/pr_reviewer.py
+        run: |
+          if [ -f ai-reviewer/pr_reviewer.py ]; then python ai-reviewer/pr_reviewer.py; fi
         continue-on-error: true  # Optional: Allow security scan to proceed even if AI review fails
 
   security_scan:
+    name: Gitleaks Security Scan
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -36,7 +40,7 @@ jobs:
       - name: Run Gitleaks Security Scan
         uses: gitleaks/gitleaks-action@v2
         with:
-          config-path: .gitleaks.toml  # Ensuring your config file is used
+          config-path: .gitleaks.toml
           report-format: json
           report-path: gitleaks-report.json
         env:
