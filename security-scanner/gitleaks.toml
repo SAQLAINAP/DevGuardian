@@ -1,0 +1,49 @@
+title = "DevGuardian Security Rules"
+
+[[rules]]
+id = "AWS_SECRET_KEY"
+description = "AWS Secret Key detected"
+regex = '''AKIA[0-9A-Z]{16}'''
+tags = ["AWS", "secret"]
+
+[[rules]]
+id = "Generic API Key"
+description = "Possible API Key detected"
+regex = '''(?i)(api_key|apikey|secret_key|access_token)[=:]['"][A-Za-z0-9]{20,40}['"]'''
+tags = ["API", "secret"]
+
+[[rules]]
+id = "GitHub Token"
+description = "GitHub Token detected"
+regex = '''ghp_[0-9a-zA-Z]{36}'''
+tags = ["GitHub", "token"]
+
+[[rules]]
+id = "Slack Token"
+description = "Slack Token detected"
+regex = '''xox[baprs]-[0-9a-zA-Z]{10,48}'''
+tags = ["Slack", "token"]
+
+[[rules]]
+id = "Heroku API Key"
+description = "Heroku API Key detected"
+regex = '''(?i)heroku_api_key[=:]['"][0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}['"]'''
+tags = ["Heroku", "API"]
+
+[[rules]]
+id = "Private Key"
+description = "Private Key detected"
+regex = '''-----BEGIN (RSA|DSA|EC|OPENSSH) PRIVATE KEY-----'''
+tags = ["SSH", "private key"]
+
+[[rules]]
+id = "Google API Key"
+description = "Google API Key detected"
+regex = '''AIza[0-9A-Za-z-_]{35}'''
+tags = ["Google", "API"]
+
+[[rules]]
+id = "Stripe API Key"
+description = "Stripe API Key detected"
+regex = '''sk_live_[0-9a-zA-Z]{24}'''
+tags = ["Stripe", "API"]
