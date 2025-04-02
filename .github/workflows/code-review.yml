@@ -25,6 +25,7 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python ai-reviewer/pr_reviewer.py
+        continue-on-error: true  # Optional: Allow security scan to proceed even if AI review fails
 
   security_scan:
     runs-on: ubuntu-latest
@@ -34,5 +35,9 @@ jobs:
 
       - name: Run Gitleaks Security Scan
         uses: gitleaks/gitleaks-action@v2
+        with:
+          config-path: .gitleaks.toml  # Ensuring your config file is used
+          report-format: json
+          report-path: gitleaks-report.json
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
